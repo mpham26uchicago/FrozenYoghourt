@@ -7,6 +7,8 @@ from scipy.optimize import minimize
 from numpy.testing import assert_array_almost_equal as aae
 
 # Add some random comments
+
+#Hello 123
 class Mode:
     representation = 'numpy'
 
