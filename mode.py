@@ -6,6 +6,10 @@ from qiskit.quantum_info import *
 from scipy.optimize import minimize
 from numpy.testing import assert_array_almost_equal as aae
 
+
+def view(mat, rounding = 10):
+    display(Matrix(np.round(mat, rounding)))
+
 class Mode:
     representation = 'numpy'
 
@@ -16,5 +20,5 @@ class Mode:
         print(f'\033[1m{cls.representation.capitalize()}\033[0m mode activated')
 
     @classmethod
-    def mode(cls):
+    def now(cls):
         print(f'\033[1m{cls.representation.capitalize()}\033[0m mode is \033[1mon\033[0m')

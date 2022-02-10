@@ -57,6 +57,12 @@ class Gates:
         else:
             return Matrix([[exp(-I * theta / 2), 0],
                            [0, exp(I * theta / 2)]])
+        
+    def P(theta:float):
+        if Mode.representation == 'numpy':
+            return np.array([[1, 0], [0, np.exp(1j*theta)]])
+        else:
+            return Matrix([[1, 0], [0, exp(I*theta)]])
 
     def U(theta, phi, lam):
         if Mode.representation == 'numpy':
@@ -66,7 +72,7 @@ class Gates:
             return Matrix([[cos(theta / 2), -exp(I * lam) * sin(theta / 2)],
                            [exp(I * phi) * sin(theta / 2), exp(I * (phi + lam)) * cos(theta / 2)]])
 
-    def Cx():
+    def CX():
         if Mode.representation == 'numpy':
             return np.array([[1, 0, 0, 0],
                              [0, 1, 0, 0],
@@ -77,6 +83,46 @@ class Gates:
                            [0, 1, 0, 0],
                            [0, 0, 0, 1],
                            [0, 0, 1, 0]])
+        
+    def CU(control, target, U, no_qubits = 2):
+        """
+        Manually build the unitary matrix for non-adjacent CU gates
+        Parameters:
+        -----------
+        control: int
+            Index of the control qubit (1st qubit is index 0)
+        target: int
+            Index of the target qubit (1st qubit is index 0)
+        U: ndarray
+            Target unitary matrix
+        edian: bool (True: qiskit convention)
+            Qubits order convention
+        no_qubits: int
+            Number of qubits in the circuit
+        Returns:
+        --------
+        cx_out:
+            Unitary matrix for CU gate
+        """
+
+        left = [Gates.Id()] * no_qubits
+        right = [Gates.Id()] * no_qubits
+
+        if Mode.representation == 'numpy':
+
+            left[control] = np.array([[1, 0], [0, 0]])
+            right[control] = np.array([[0, 0], [0, 1]])
+
+        else:
+
+            left[control] = Matrix([[1, 0], [0, 0]])
+            right[control] = Matrix([[0, 0], [0, 1]])
+
+        right[target] = U
+
+        cu_out = Maths.tp(*left) + Maths.tp(*right)
+
+        return cu_out
 
     def Swap():
         if Mode.representation == 'numpy':

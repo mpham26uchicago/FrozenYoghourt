@@ -1,0 +1,6 @@
+Date: 10/2/2022
+
+1. Wrote README file
+2. Add P gates method to gates.py
+3. Add CU method to gates.py
+4. Add view method to mode.py
