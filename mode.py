@@ -6,7 +6,7 @@ from qiskit.quantum_info import *
 from scipy.optimize import minimize
 from numpy.testing import assert_array_almost_equal as aae
 
-
+# Add some random comments
 class Mode:
     representation = 'numpy'
 
