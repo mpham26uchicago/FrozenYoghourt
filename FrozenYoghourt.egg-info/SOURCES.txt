@@ -3,13 +3,13 @@ CHANGELOG.txt
 LICENSE.txt
 MANIFEST.in
 README.txt
-__init__.py
-gates.py
-maths.py
-mode.py
-quantum.py
 setup.py
 .ipynb_checkpoints/Bug Fixes and Feature Developments -checkpoint.ipynb
+FrozenYoghourt/__init__.py
+FrozenYoghourt/gates.py
+FrozenYoghourt/maths.py
+FrozenYoghourt/mode.py
+FrozenYoghourt/quantum.py
 FrozenYoghourt.egg-info/PKG-INFO
 FrozenYoghourt.egg-info/SOURCES.txt
 FrozenYoghourt.egg-info/dependency_links.txt
