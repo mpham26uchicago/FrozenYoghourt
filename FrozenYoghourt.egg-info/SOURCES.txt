@@ -6,11 +6,11 @@ README.txt
 setup.py
 .ipynb_checkpoints/Bug Fixes and Feature Developments -checkpoint.ipynb
 FrozenYoghourt/__init__.py
-FrozenYoghourt/gates.py
-FrozenYoghourt/maths.py
-FrozenYoghourt/mode.py
-FrozenYoghourt/quantum.py
 FrozenYoghourt.egg-info/PKG-INFO
 FrozenYoghourt.egg-info/SOURCES.txt
 FrozenYoghourt.egg-info/dependency_links.txt
 FrozenYoghourt.egg-info/top_level.txt
+FrozenYoghourt/gates/gates.py
+FrozenYoghourt/maths/maths.py
+FrozenYoghourt/mode/mode.py
+FrozenYoghourt/quantum/quantum.py

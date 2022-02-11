@@ -1,4 +1,4 @@
-from mode import *
+from FrozenYoghourt.mode import *
 
 
 class Maths:

@@ -1,5 +1,5 @@
-from mode import *
-from maths import *
+from FrozenYoghourt.mode import *
+from FrozenYoghourt.maths import *
 
 
 class Gates:
