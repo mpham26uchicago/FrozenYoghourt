@@ -10,7 +10,7 @@ FrozenYoghourt.egg-info/PKG-INFO
 FrozenYoghourt.egg-info/SOURCES.txt
 FrozenYoghourt.egg-info/dependency_links.txt
 FrozenYoghourt.egg-info/top_level.txt
-FrozenYoghourt/gates/gates.py
-FrozenYoghourt/maths/maths.py
-FrozenYoghourt/mode/mode.py
-FrozenYoghourt/quantum/quantum.py
+FrozenYoghourt/gates/__init__.py
+FrozenYoghourt/maths/__init__.py
+FrozenYoghourt/mode/__init__.py
+FrozenYoghourt/quantum/__init__.py

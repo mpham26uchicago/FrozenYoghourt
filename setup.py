@@ -10,7 +10,7 @@ classifiers = [
  
 setup(
   name='FrozenYoghourt',
-  version='0.0.5',
+  version='0.0.6',
   description='Numerical and Symbolic Manipulation for Quantum Computing',
   long_description=open('README.txt').read() + '\n\n' + open('CHANGELOG.txt').read(),
   url='',  
