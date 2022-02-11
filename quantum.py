@@ -24,8 +24,25 @@ class Quantum:
         else:
             print('A and B are not equivalent up to global phase')
             return False
+        
+    def kron_decomp(U:np.ndarray):
+        m = U.reshape(2, 2, 2, 2).transpose(0, 2, 1, 3).reshape(4, 4)
 
-    def chi(M, variable='lambda'):
+        u, sv, vh = np.linalg.svd(m)
+
+        a = np.sqrt(sv[0]) * u[:, 0].reshape(2, 2)
+        b = np.sqrt(sv[0]) * vh[0, :].reshape(2, 2)
+
+        return a, b
+    
+   
+    def gamma(U):
+        n = int(np.log2(U.shape[0]))
+
+        E = Maths.tp(Gates.Y(), no_times=n)
+        return U @ E @ U.T @ E
+
+    def chi(M, variable='x'):
         dim = M.shape[0]
 
         coef = np.array([1])
@@ -41,24 +58,11 @@ class Quantum:
             return coef
 
         else:
-            if variable == 'lambda':
-                variable = symbols('lambda')
-            variable_mat = Matrix([variable ** n for n in range(dim + 1)])
+            var = symbols(variable)
+            variable_mat = Matrix([var ** n for n in range(dim + 1)])
             coef = Matrix(coef).T
             char_poly = simplify(coef @ variable_mat)[0]
             return char_poly
-
-    def to_su(u):
-        if Mode.representation == 'numpy':
-            return u * np.linalg.det(u) ** (-1 / np.shape(u)[0])
-        else:
-            return u * u.det() ** (-1 / u.shape[0])
-
-    def gamma(U):
-        n = int(np.log2(U.shape[0]))
-
-        E = Maths.tp(Gates.Y(), no_times=n)
-        return U @ E @ U.T @ E
 
     def double_cosets(g, h):
         E = Gates.Magic()

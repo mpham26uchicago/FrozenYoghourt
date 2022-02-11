@@ -49,16 +49,12 @@ class Maths:
                 V = AH * U * S.inv()
 
             return U, S, V
-
-    def kron_decomp(U:np.ndarray):
-        m = U.reshape(2, 2, 2, 2).transpose(0, 2, 1, 3).reshape(4, 4)
-
-        u, sv, vh = np.linalg.svd(m)
-
-        a = np.sqrt(sv[0]) * u[:, 0].reshape(2, 2)
-        b = np.sqrt(sv[0]) * vh[0, :].reshape(2, 2)
-
-        return a, b
+    
+    def to_su(u):
+        if Mode.representation == 'numpy':
+            return u * complex(np.linalg.det(u)) ** (-1 / np.shape(u)[0])
+        else:
+            return u * complex(u.det()) ** (-1 / u.shape[0])
 
     def fast_substitution(matrix:Matrix, variables, values, to_numpy=False):
         substituted_matrix = matrix.subs(list(zip(variables, values)))

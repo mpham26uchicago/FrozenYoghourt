@@ -1,0 +1,21 @@
+Change Log
+
+==========
+
+0.0.1 (10/02/2022)
+------------------
+- First Release
+
+Date: 10/2/2022
+
+1. Wrote README file
+2. Add P gates method to gates.py
+3. Add CU method to gates.py
+4. Add view method to mode.py
+5. Add log.txt for keeping track of changes
+
+Date: 11/2/2022
+
+1. Move to_su to maths.py
+2. Move kron_decomp to quantum.py
+3. Change default variable in the chi method to "x"

@@ -1,0 +1,47 @@
+Metadata-Version: 1.1
+Name: FrozenYoghourt
+Version: 0.0.1
+Summary: Numerical and Symbolic Manipulation for Quantum Computing
+Home-page: UNKNOWN
+Author: Peter Montgomery
+Author-email: petermontgomery056@gmail.com
+License: MIT
+Description: FrozenYoghourt is a collections of useful modules for working with circuit theory. Our library offers a tool for both numerical calculation with numpy that is optimized for speed and symbolic manipulation with sympy that is helpful for studying closed form circuit.
+        
+        We divide our library into 4 main modules.
+        
+        1. mode: used for switching between numerical and symbolic representations.
+        2. gates: contains many useful one and two qubits gates. The symbolic representation are especially conducive to analyzing parameterized families.
+        3. maths: this module contains many mathematical methods that are generally useful for quantum computing
+        4. quantum: this module contains specific methods for working with circuit decomposition
+        5. circuit: we are developping this module to optimize matrix multiplication and tensor product in the context of quantum circuits. This should also allows for easy analysis of quantum state and isometry.
+        
+        Change Log
+        
+        ==========
+        
+        0.0.1 (10/02/2022)
+        ------------------
+        - First Release
+        
+        Date: 10/2/2022
+        
+        1. Wrote README file
+        2. Add P gates method to gates.py
+        3. Add CU method to gates.py
+        4. Add view method to mode.py
+        5. Add log.txt for keeping track of changes
+        
+        Date: 11/2/2022
+        
+        1. Move to_su to maths.py
+        2. Move kron_decomp to quantum.py
+        3. Change default variable in the chi method to "x"
+        
+Keywords: quantum computing
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Education
+Classifier: Operating System :: Microsoft :: Windows :: Windows 10
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
