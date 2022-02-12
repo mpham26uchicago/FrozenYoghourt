@@ -1,3 +1,4 @@
+from FrozenYoghourt import *
 from FrozenYoghourt.mode import *
 
 
@@ -50,11 +51,19 @@ class Maths:
 
             return U, S, V
     
-    def to_su(u):
+    def to_su(u:Union[np.ndarray, list[np.ndarray], MutableDenseMatrix, list[MutableDenseMatrix]]):
         if Mode.representation == 'numpy':
-            return u * complex(np.linalg.det(u)) ** (-1 / np.shape(u)[0])
+            if type(u) == list:
+                to_su_list = [mat * complex(np.linalg.det(mat)) ** (-1 / np.shape(mat)[0]) for mat in u]
+                return to_su_list
+            else:
+                return u * complex(np.linalg.det(u)) ** (-1 / np.shape(u)[0])
         else:
-            return u * complex(u.det()) ** (-1 / u.shape[0])
+            if type(u) == list:
+                to_su_list = [mat * complex(mat.det()) ** (-1 / mat.shape[0]) for mat in u]
+                return to_su_list
+            else:
+                return u * complex(u.det()) ** (-1 / u.shape[0])
 
     def fast_substitution(matrix:Matrix, variables, values, to_numpy=False):
         substituted_matrix = matrix.subs(list(zip(variables, values)))

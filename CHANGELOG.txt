@@ -32,4 +32,7 @@ Date: 12/02/2022
 
 Date: 12/02/2022
 
-1. Fix Quantum.double_cosets 
+1. Fix Quantum.double_cosets by importing the correct packages
+2. Add default_import method to allow for faster import prompt
+3. Change random_local_gates to random_local_ops and allow for creating more operation at the same time.
+4. Allow for doing to_su on list of matrices.

@@ -1,3 +1,4 @@
+from FrozenYoghourt import *
 from FrozenYoghourt.mode import *
 from FrozenYoghourt.maths import *
 from FrozenYoghourt.gates import *
@@ -5,11 +6,20 @@ from FrozenYoghourt.gates import *
 
 class Quantum:
 
-    def random_local_gates(num_qubits):
+    def random_local_ops(num_qubits, no_ops = 1):
         if Mode.representation == 'numpy':
-            return Maths.tp(*[random_unitary(2) for i in range(num_qubits)])
+            if no_ops == 1:
+                return Maths.tp(*[random_unitary(2) for i in range(num_qubits)])
+            else:
+                ops_list = [Maths.tp(*[random_unitary(2) for i in range(num_qubits)]) for i in range(no_ops)]
+                return ops_list
         else:
-            return Maths.tp(*[Gates.U(*symbols(f'theta_{i}, phi_{i}, lambda_{i}')) for i in range(num_qubits)])
+            if no_ops == 1:
+                return Maths.tp(*[Gates.U(*symbols(f'theta_{i}, phi_{i}, lambda_{i}')) for i in range(num_qubits)])
+            else:
+                ops_list = [Maths.tp(*[Gates.U(*symbols(f'theta_{i}, phi_{i}, lambda_{i}')) 
+                                       for i in range(j*num_qubits, (j+1)*num_qubits)]) for j in range(no_ops)]
+                return ops_list
 
     def epsilon(psi, num_qubits=2):
         if Mode.representation == 'numpy':
