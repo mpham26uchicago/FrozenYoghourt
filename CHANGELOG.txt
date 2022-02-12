@@ -19,3 +19,17 @@ Date: 11/2/2022
 1. Move to_su to maths.py
 2. Move kron_decomp to quantum.py
 3. Change default variable in the chi method to "x"
+
+0.0.7 (12/02/2022)
+------------------
+
+Date: 12/02/2022
+
+1. Import gates.py to quantum.py
+
+0.0.8 (12/02/2022)
+------------------
+
+Date: 12/02/2022
+
+1. Fix Quantum.double_cosets 

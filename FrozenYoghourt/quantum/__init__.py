@@ -1,5 +1,6 @@
 from FrozenYoghourt.mode import *
 from FrozenYoghourt.maths import *
+from FrozenYoghourt.gates import *
 
 
 class Quantum:
@@ -67,7 +68,7 @@ class Quantum:
     def double_cosets(g, h):
         E = Gates.Magic()
 
-        g, h = Quantum.to_su(g), Quantum.to_su(h)
+        g, h = Maths.to_su(g), Maths.to_su(h)
 
         u, v = np.conj(E).T @ g @ E, np.conj(E).T @ h @ E
 

@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: FrozenYoghourt
-Version: 0.0.6
+Version: 0.0.8
 Summary: Numerical and Symbolic Manipulation for Quantum Computing
 Home-page: UNKNOWN
 Author: Peter Montgomery
@@ -38,6 +38,13 @@ Description: FrozenYoghourt is a collections of useful modules for working with 
         2. Move kron_decomp to quantum.py
         3. Change default variable in the chi method to "x"
         
+        0.0.7 (12/02/2022)
+        ------------------
+        - First Release
+        
+        Date: 12/02/2022
+        
+        1. Import gates.py to quantum.py
 Keywords: quantum computing
 Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
