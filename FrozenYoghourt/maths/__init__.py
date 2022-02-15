@@ -51,7 +51,7 @@ class Maths:
 
             return U, S, V
     
-    def to_su(u:Union[np.ndarray, list[np.ndarray], MutableDenseMatrix, list[MutableDenseMatrix]]):
+    def to_su(u:Union[np.ndarray, List[np.ndarray], MutableDenseMatrix, List[MutableDenseMatrix]]):
         if Mode.representation == 'numpy':
             if type(u) == list:
                 to_su_list = [mat * complex(np.linalg.det(mat)) ** (-1 / np.shape(mat)[0]) for mat in u]
