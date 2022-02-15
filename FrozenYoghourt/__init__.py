@@ -16,7 +16,7 @@ def default_import(items:list = ['r', 'g', 'm', 'q']):
     
     
     import_str = ''
-    for item in default_import:
+    for item in items:
         import_str += import_statements[item]
         
     print(import_str)
