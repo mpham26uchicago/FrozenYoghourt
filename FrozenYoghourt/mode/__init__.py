@@ -1,7 +1,5 @@
 from FrozenYoghourt import *
-
-def view(mat, rounding = 10):
-    display(Matrix(np.round(mat, rounding)))
+    
 
 class Mode:
     representation = 'numpy'

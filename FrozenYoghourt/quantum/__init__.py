@@ -9,9 +9,9 @@ class Quantum:
     def random_local_ops(num_qubits, no_ops = 1):
         if Mode.representation == 'numpy':
             if no_ops == 1:
-                return Maths.tp(*[random_unitary(2) for i in range(num_qubits)])
+                return Maths.tp(*[random_unitary(2).data for i in range(num_qubits)])
             else:
-                ops_list = [Maths.tp(*[random_unitary(2) for i in range(num_qubits)]) for i in range(no_ops)]
+                ops_list = [Maths.tp(*[random_unitary(2).data for i in range(num_qubits)]) for i in range(no_ops)]
                 return ops_list
         else:
             if no_ops == 1:

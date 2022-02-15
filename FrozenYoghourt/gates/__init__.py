@@ -196,3 +196,15 @@ class Gates:
                            [0, exp(I * theta / 2), 0, 0],
                            [0, 0, exp(I * theta / 2), 0],
                            [0, 0, 0, exp(-I * theta / 2)]])
+        
+    def CAN(tx:float, ty:float, tz:float):
+        if Mode.representation == 'numpy':
+            return np.array([[np.exp(-1j*tz/2)*np.cos((tx-ty)/2), 0, 0, -1j*np.exp(-1j*tz/2)*np.sin((tx-ty)/2)], 
+                             [0, np.exp(1j*tz/2)*np.cos((tx+ty)/2), -1j*np.exp(1j*tz/2)*np.sin((tx+ty)/2), 0], 
+                             [0, -1j*np.exp(1j*tz/2)*np.sin((tx+ty)/2), np.exp(1j*tz/2)*np.cos((tx+ty)/2), 0], 
+                             [-1j*np.exp(-1j*tz/2)*np.sin((tx-ty)/2), 0, 0, np.exp(-1j*tz/2)*np.cos((tx-ty)/2)]])
+        else:
+            return Matrix([[exp(-I*tz/2)*cos((tx-ty)/2), 0, 0, -I*exp(-I*tz/2)*sin((tx-ty)/2)], 
+                           [0, exp(I*tz/2)*cos((tx+ty)/2), -I*exp(I*tz/2)*sin((tx+ty)/2), 0], 
+                           [0, -I*exp(I*tz/2)*sin((tx+ty)/2), exp(I*tz/2)*cos((tx+ty)/2), 0], 
+                           [-I*exp(-I*tz/2)*sin((tx-ty)/2), 0, 0, exp(-I*tz/2)*cos((tx-ty)/2)]])
