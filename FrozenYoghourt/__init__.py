@@ -26,6 +26,6 @@ def view(mat, rounding = 10):
     if type(mat) == np.ndarray:
         display(Matrix(np.round(mat, rounding)))
     else:
-        display(round(mat, rounding))
+        display(mat.evalf(rounding))
         
    

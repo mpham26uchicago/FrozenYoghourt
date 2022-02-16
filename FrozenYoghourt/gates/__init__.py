@@ -148,6 +148,18 @@ class Gates:
                            [0, 1 / sqrt(2), I / sqrt(2), 0],
                            [0, I / sqrt(2), 1 / sqrt(2), 0],
                            [0, 0, 0, 1]])
+        
+    def Gamma():
+        if Mode.representation == 'numpy':
+            return 1/2 * np.array([[1, -1, 1, -1], 
+                                   [1, 1, -1, -1], 
+                                   [1, -1, -1, 1], 
+                                   [1, 1, 1, 1]])
+        else:
+            return 1/2 * Matrix([[1, -1, 1, -1], 
+                                 [1, 1, -1, -1], 
+                                 [1, -1, -1, 1], 
+                                 [1, 1, 1, 1]])
 
     def Magic():
         if Mode.representation == 'numpy':

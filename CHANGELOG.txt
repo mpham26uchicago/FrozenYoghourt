@@ -44,3 +44,4 @@ Date 15/02/2022
 
 1. Add view method to visualize numerical matrices
 2. Add CAN method
+3. Add Gamma gates
