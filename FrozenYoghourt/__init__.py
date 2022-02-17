@@ -9,11 +9,11 @@ from typing import *
 
 def default_import(items:list = ['a', 'r', 'g', 'm', 'q']):
     
-    import_statements = {'a': 'from FrozenYoghourt import *', 
-                         'r': 'from FrozenYoghourt.mode import Mode as r\n', 
-                         'g': 'from FrozenYoghourt.gates import Gates as g\n', 
-                         'm': 'from FrozenYoghourt.maths import Maths as m\n', 
-                         'q': 'from FrozenYoghourt.quantum import Quantum as q'}
+    import_statements = {'a': 'from FrozenYoghourt import *\n', 
+                         'r': 'from FrozenYoghourt.mode import *\n', 
+                         'g': 'from FrozenYoghourt.gates import *\n', 
+                         'm': 'from FrozenYoghourt.maths import *\n', 
+                         'q': 'from FrozenYoghourt.quantum import *\n'}
     
     
     import_str = ''
