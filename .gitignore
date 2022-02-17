@@ -1,10 +1,17 @@
-__pycache__/
 Bug\ Fixes\ and\ Feature\ Developments\ .ipynb
-build/
-FrozenYoghourt.egg-info/
 MANIFEST.IN
 setup.py 
+
+
+# Ignore directories
+__pycache__/
+build/
 dist/
+FrozenYoghourt.egg-info/
+.idea/
+.ipynb_checkpoints/
+.git/
+
 # Ignore Jupyter Notebooks
 *.ipynb
 # Ignore .log file
