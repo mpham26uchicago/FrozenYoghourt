@@ -13,6 +13,20 @@ def tp(*lst, no_times=1):
     else:
         return TensorProduct(*lst)
 
+def dagger(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
+    if Mode.representation == 'numpy':
+        if len(u) == 1:
+            return np.conj(u[0].T)
+        else:
+            dagger_list = [np.conj(mat.T) for mat in u]
+            return dagger_list
+    else:
+        if len(u) == 1:
+            return u[0].T.conjugate()
+        else:
+            dagger_list = [mat.T.conjugate() for mat in u]
+            return dagger_list
+    
 def svd(A:np.ndarray):
     if Mode.representation == 'numpy':
         return np.linalg.svd(A)
@@ -49,19 +63,19 @@ def svd(A:np.ndarray):
 
         return U, S, V
 
-def to_su(u:Union[np.ndarray, List[np.ndarray], MutableDenseMatrix, List[MutableDenseMatrix]]):
+def to_su(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
     if Mode.representation == 'numpy':
-        if type(u) == list:
+        if len(u) == 1:
+            return u[0] * complex(np.linalg.det(u[0])) ** (-1 / np.shape(u[0])[0])
+        else:
             to_su_list = [mat * complex(np.linalg.det(mat)) ** (-1 / np.shape(mat)[0]) for mat in u]
             return to_su_list
-        else:
-            return u * complex(np.linalg.det(u)) ** (-1 / np.shape(u)[0])
     else:
-        if type(u) == list:
+        if len(u) == 1:
+            return u[0] * complex(u[0].det()) ** (-1 / u[0].shape[0])
+        else:
             to_su_list = [mat * complex(mat.det()) ** (-1 / mat.shape[0]) for mat in u]
             return to_su_list
-        else:
-            return u * complex(u.det()) ** (-1 / u.shape[0])
 
 def fast_substitution(matrix:Matrix, variables, values, to_numpy=False):
     substituted_matrix = matrix.subs(list(zip(variables, values)))

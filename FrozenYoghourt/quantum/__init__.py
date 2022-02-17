@@ -73,38 +73,4 @@ def chi(M, variable='x'):
         char_poly = simplify(coef @ variable_mat)[0]
         return char_poly
 
-def double_cosets(g, h):
-    E = Magic()
-
-    g, h = to_su(g), to_su(h)
-
-    u, v = np.conj(E).T @ g @ E, np.conj(E).T @ h @ E
-
-    D1, P1 = np.linalg.eig(u @ u.T)
-    D2, P2 = np.linalg.eig(v @ v.T)
-
-    idx = D1.argsort()[::-1]
-    D1 = D1[idx]
-    P1 = P1[:, idx]
-
-    idx = D2.argsort()[::-1]
-    D2 = D2[idx]
-    P2 = P2[:, idx]
-
-    if not np.isclose(D1[0], D2[0]):
-        D2 = -D2
-        idx = D2.argsort()[::-1]
-        D2 = D2[idx]
-        P2 = P2[:, idx]
-
-    a = P1.T
-    b = P2.T
-
-    c = np.conj(v).T @ b.T @ a @ u
-
-    left_coset = E @ b.T @ a @ np.conj(E).T
-    right_coset = E @ c.T @ np.conj(E).T
-
-    return left_coset, right_coset
-
 

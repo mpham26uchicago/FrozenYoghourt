@@ -49,5 +49,13 @@ Date: 10/2/2022
 
 0.0.12 (17/02/2022)
 -------------------
+
 1. Allow for custom custom mode toggle
 2. Add color to toggle / now
+
+0.0.13 (18/02/2022)
+-------------------
+
+1. Add a dagger function that can operate on multiple matrices input
+2. Fix the to_su function so that it can operate on multiple matrices input
+3. Delete double_cosets to be replaced with the KAK
