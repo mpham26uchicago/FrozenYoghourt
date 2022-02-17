@@ -1,0 +1,11 @@
+__pycache__/
+Bug\ Fixes\ and\ Feature\ Developments\ .ipynb
+build/
+FrozenYoghourt.egg-info/
+MANIFEST.IN
+setup.py 
+dist/
+# Ignore Jupyter Notebooks
+*.ipynb
+# Ignore .log file
+*.log
