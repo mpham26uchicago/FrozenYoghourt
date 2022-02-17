@@ -3,10 +3,13 @@ Bug\ Fixes\ and\ Feature\ Developments\ .ipynb
 MANIFEST.IN
 setup.py 
 .DS_Store
+README.txt
+*DS_Store
 
 
 # Ignore directories
 __pycache__/
+*__pycache__/
 build/
 dist/
 FrozenYoghourt.egg-info/
@@ -18,3 +21,6 @@ FrozenYoghourt.egg-info/
 *.ipynb
 # Ignore .log file
 *.log
+
+#Ignore .pyc file
+*.pyc

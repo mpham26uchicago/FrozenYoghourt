@@ -44,5 +44,10 @@ Date: 10/2/2022
 0.0.11 (17/02/2022)
 -------------------
 
-1. Delete Class from files so now g.CAN will just be CAN. Althought the Mode class is kept.
+1. Delete Class from files so now g.CAN will just be CAN. Although the Mode class is kept.
 2. Fix default_import to match the change in 1.
+
+0.0.12 (17/02/2022)
+-------------------
+1. Allow for custom custom mode toggle
+2. Add color to toggle / now
