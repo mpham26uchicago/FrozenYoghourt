@@ -5,6 +5,15 @@ setup.py
 .DS_Store
 README.txt
 *DS_Store
+FrozenYoghourt/.DS_Store
+FrozenYoghourt/gates/.DS_Store
+FrozenYoghourt/maths/.DS_Store
+FrozenYoghourt/mode/.DS_Store
+FrozenYoghourt/quantum/.DS_Store
+
+git rm -r --cached FrozenYoghourt/quantum/__pycache__
+
+
 
 
 # Ignore directories
@@ -16,6 +25,12 @@ FrozenYoghourt.egg-info/
 .idea/
 .ipynb_checkpoints/
 .git/
+FrozenYoghourt/__pycache__
+FrozenYoghourt/gates/__pycache__
+FrozenYoghourt/maths/__pycache__
+FrozenYoghourt/mode/__pycache__
+FrozenYoghourt/quantum/__pycache__
+
 
 # Ignore Jupyter Notebooks
 *.ipynb
