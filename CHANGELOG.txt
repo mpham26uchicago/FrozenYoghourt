@@ -34,14 +34,14 @@ Date: 10/2/2022
 3. Change random_local_gates to random_local_ops and allow for creating more operation at the same time.
 4. Allow for doing to_su on list of matrices.
 
-0.0.11 (15/02/2022)
+0.0.10.1 (15/02/2022)
 -------------------
 
 1. Add view method to visualize numerical matrices
 2. Add CAN method
 3. Add Gamma gates
 
-0.0.12 (17/02/2022)
+0.0.11 (17/02/2022)
 -------------------
 
 1. Delete Class from files so now g.CAN will just be CAN. Althought the Mode class is kept.
