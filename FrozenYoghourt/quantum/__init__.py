@@ -62,7 +62,7 @@ def chi(M, variable=None):
         return coef
 
     else:
-        if var is None:
+        if variable is None:
             return Matrix(coef)
         else:
             var = symbols(variable)

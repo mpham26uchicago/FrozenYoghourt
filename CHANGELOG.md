@@ -53,17 +53,22 @@ Date: 10/2/2022
 1. Allow for custom custom mode toggle
 2. Add color to toggle / now
 
-0.0.13 (18/02/2022)
--------------------
+0.0.12.2 (17/02/2022)
+---------------------
 
 1. Add a dagger function that can operate on multiple matrices input
 2. Fix the to_su function so that it can operate on multiple matrices input
 3. Delete double_cosets to be replaced with the KAK
 4. Add printing parameter to toggle to allow for not printing results
-5. Change P gate to Phase
-6. Change chi to include coefficients return of symbolic matrices.
-7. Change random_local_ops to local_ops
-8. Replace U function with u2 function which now allows for special unitary gates
-9. Fix local_ops so that it nows includes a special unitary option
-10. Add evaluate numerical returns for to_su
-11. Add canonical_class_vector method
+
+
+0.0.13 (18/02/2022)
+-------------------
+
+1. Change P gate to Phase
+2. Change chi to include coefficients return of symbolic matrices.
+3. Change random_local_ops to local_ops
+4. Replace U function with u2 function which now allows for special unitary gates
+5. Fix local_ops so that it nows includes a special unitary option
+6. Add evaluate numerical returns for to_su
+7. Add canonical_class_vector method
