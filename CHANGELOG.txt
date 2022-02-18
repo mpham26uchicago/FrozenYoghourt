@@ -59,3 +59,5 @@ Date: 10/2/2022
 1. Add a dagger function that can operate on multiple matrices input
 2. Fix the to_su function so that it can operate on multiple matrices input
 3. Delete double_cosets to be replaced with the KAK
+4. Add printing parameter to toggle to allow for not printing results
+5. Change P gate to Phase

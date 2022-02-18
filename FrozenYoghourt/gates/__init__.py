@@ -58,7 +58,7 @@ def Rz(theta:float):
         return Matrix([[exp(-I * theta / 2), 0],
                        [0, exp(I * theta / 2)]])
 
-def P(theta:float):
+def Phase(theta:float):
     if Mode.representation == 'numpy':
         return np.array([[1, 0], [0, np.exp(1j*theta)]])
     else:

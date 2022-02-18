@@ -6,18 +6,20 @@ class Mode:
     representation = 'numpy'
     
     @classmethod
-    def toggle(cls, specific_mode = None):
+    def toggle(cls, specific_mode = None, printing = True):
 
         if specific_mode is None:
             cls.representation = {'numpy': 'sympy',
                                   'sympy': 'numpy'}[cls.representation]
-            print(f'\033[1;34m{cls.representation.upper()} \033[1;32mactivated')
+            if printing:
+                print(f'\033[1;34m{cls.representation.upper()} \033[1;32mactivated')
         else:
             cls.representation = {'n': 'numpy', 
                                   'numpy': 'numpy', 
                                   's': 'sympy', 
                                   'sympy':'sympy'}[specific_mode]
-            print(f'\033[1;34m{cls.representation.upper()} \033[1;32mactivated')
+            if printing:
+                print(f'\033[1;34m{cls.representation.upper()} \033[1;32mactivated')
             
     @classmethod
     def now(cls):
