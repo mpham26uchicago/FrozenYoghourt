@@ -61,3 +61,9 @@ Date: 10/2/2022
 3. Delete double_cosets to be replaced with the KAK
 4. Add printing parameter to toggle to allow for not printing results
 5. Change P gate to Phase
+6. Change chi to include coefficients return of symbolic matrices.
+7. Change random_local_ops to local_ops
+8. Replace U function with u2 function which now allows for special unitary gates
+9. Fix local_ops so that it nows includes a special unitary option
+10. Add evaluate numerical returns for to_su
+11. Add canonical_class_vector method

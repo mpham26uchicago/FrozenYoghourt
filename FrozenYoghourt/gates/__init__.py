@@ -64,13 +64,21 @@ def Phase(theta:float):
     else:
         return Matrix([[1, 0], [0, exp(I*theta)]])
 
-def U(theta, phi, lam):
+def u2(unimodular = False, index = ''):
+    
     if Mode.representation == 'numpy':
-        return np.array([[np.cos(theta / 2), -np.exp(1j * lam) * np.sin(theta / 2)],
-                         [np.exp(1j * phi) * np.sin(theta / 2), np.exp(1j * (phi + lam) * np.cos(theta / 2))]])
+        if unimodular: 
+            return to_su(random_unitary(2).data)
+        else: 
+            return random_unitary(2).data
     else:
-        return Matrix([[cos(theta / 2), -exp(I * lam) * sin(theta / 2)],
-                       [exp(I * phi) * sin(theta / 2), exp(I * (phi + lam)) * cos(theta / 2)]])
+        theta, phi, lam = symbols(f'theta_{index}, phi_{index}, lambda_{index}', real = True)
+        if unimodular:
+            return Matrix([[exp(I*phi)*cos(theta / 2), -exp(I * -lam) * sin(theta / 2)],
+                                          [exp(I * lam) * sin(theta / 2), exp(I * (-phi)) * cos(theta / 2)]])
+        else:
+            return Matrix([[cos(theta / 2), -exp(I * lam) * sin(theta / 2)],
+                                           [exp(I * phi) * sin(theta / 2), exp(I * (phi + lam)) * cos(theta / 2)]])
 
 def CX():
     if Mode.representation == 'numpy':

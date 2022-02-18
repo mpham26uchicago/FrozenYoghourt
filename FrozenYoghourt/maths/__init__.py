@@ -72,9 +72,9 @@ def to_su(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
             return to_su_list
     else:
         if len(u) == 1:
-            return u[0] * complex(u[0].det()) ** (-1 / u[0].shape[0])
+            return (u[0] * complex(u[0].det()) ** (-1 / u[0].shape[0])).evalf()
         else:
-            to_su_list = [mat * complex(mat.det()) ** (-1 / mat.shape[0]) for mat in u]
+            to_su_list = [(mat * complex(mat.det()) ** (-1 / mat.shape[0])).evalf() for mat in u]
             return to_su_list
 
 def fast_substitution(matrix:Matrix, variables, values, to_numpy=False):

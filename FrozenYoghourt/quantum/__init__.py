@@ -4,20 +4,15 @@ from FrozenYoghourt.maths import *
 from FrozenYoghourt.gates import *
 
 
-def random_local_ops(num_qubits, no_ops = 1):
-    if Mode.representation == 'numpy':
-        if no_ops == 1:
-            return tp(*[random_unitary(2).data for i in range(num_qubits)])
-        else:
-            ops_list = [tp(*[random_unitary(2).data for i in range(num_qubits)]) for i in range(no_ops)]
-            return ops_list
+def local_ops(num_qubits = 1, no_ops = 1, unimodular = False):
+    
+    if type(no_ops) == bool:
+        unimodular = no_ops; no_ops = 1
+    
+    if no_ops == 1:
+        return tp(*[u2(unimodular, i) for i in range(num_qubits)])
     else:
-        if no_ops == 1:
-            return tp(*[U(*symbols(f'theta_{i}, phi_{i}, lambda_{i}')) for i in range(num_qubits)])
-        else:
-            ops_list = [tp(*[U(*symbols(f'theta_{i}, phi_{i}, lambda_{i}')) 
-                                   for i in range(j*num_qubits, (j+1)*num_qubits)]) for j in range(no_ops)]
-            return ops_list
+        return [tp(*[u2(unimodular, i) for i in range(j*num_qubits, (j+1)*num_qubits)]) for j in range(no_ops)]
 
 def epsilon(psi, num_qubits=2):
     if Mode.representation == 'numpy':
@@ -51,7 +46,7 @@ def gamma(U):
     E = tp(Y(), no_times=n)
     return U @ E @ U.T @ E
 
-def chi(M, variable='x'):
+def chi(M, variable=None):
     dim = M.shape[0]
 
     coef = np.array([1])
@@ -67,10 +62,60 @@ def chi(M, variable='x'):
         return coef
 
     else:
-        var = symbols(variable)
-        variable_mat = Matrix([var ** n for n in range(dim + 1)])
-        coef = Matrix(coef).T
-        char_poly = simplify(coef @ variable_mat)[0]
-        return char_poly
+        if var is None:
+            return Matrix(coef)
+        else:
+            var = symbols(variable)
+            variable_mat = Matrix([var ** n for n in range(dim + 1)])
+            coef = Matrix(coef).T
+            char_poly = simplify(coef @ variable_mat)[0]
+            return char_poly
+
+def shende_invariant(U, V = None, return_charpoly = False):
+
+    if V is None:
+        return chi(gamma(to_su(U)))
+    
+    elif Mode.representation == 'numpy':
+        charpoly_U = chi(gamma(to_su(U)))
+        charpoly_V = chi(gamma(to_su(V)))
+        
+        if return_charpoly:
+            return np.all(np.isclose(charpoly_U, charpoly_V)), charpoly_U, charpoly_V
+        else:
+            return np.all(np.isclose(charpoly_U, charpoly_V))
+        
+    else: ## This needs fixing because the determinant function doesn't work
+        charpoly_U = chi(gamma(to_su(U)))
+        charpoly_V = chi(gamma(to_su(V)))
+        
+        if return_charpoly:
+            return charpoly_U.equals(charpoly_V), charpoly_U, charpoly_V
+        else:
+            return charpoly_U.equals(charpoly_V)
 
 
+def canonical_class_vector(x, y, z, return_phase = True):
+    
+    # Step 1 and 2
+    param = np.array([x, y, z])
+    shift = param // np.pi
+    phase = np.exp(-1j*(np.pi/2)*(np.sum(shift)%2)) # Keep track of whether to add phase to correct for KAK
+    k = np.sort(param - np.pi*shift)[::-1]
+
+    # Step 3
+    if k[0] + k[1] > np.pi:
+        k = np.sort(np.array([np.pi - k[1], np.pi - k[0], k[2]]))[::-1]
+
+    # Step 4
+    if np.isclose(k[2], 0) and (k[0] > np.pi/2):
+        k[0] = np.pi - k[0]
+        k = np.sort(k)[::-1]
+        phase *= 1j
+    
+    if return_phase:
+        return k[0], k[1], k[2], phase
+    else:
+        return k[0], k[1], k[2]
+
+### Add huang_invariant tomorrow
