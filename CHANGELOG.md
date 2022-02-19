@@ -75,6 +75,8 @@ Date: 10/2/2022
 0.0.14 (19/02/2022)
 -------------------
 
-1. Write documentation for mode.py
+1. Write documentation for mode
 2. Allow single variable input for fast_substitution
 3. Add angles parameters to u2 function
+4. Create two new modules circuit and visualization
+5. Fix the default_import to reflect the above changes.
