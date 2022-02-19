@@ -78,11 +78,15 @@ def to_su(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
             return to_su_list
 
 def fast_substitution(matrix:Matrix, variables, values, to_numpy=False):
-    substituted_matrix = matrix.subs(list(zip(variables, values)))
-    if to_numpy:
-        return np.array(substituted_matrix).astype(np.complex)
+    if (type(variables) == list) or (type(variables) == tuple):
+        substituted_matrix = matrix.subs(list(zip(variables, values)))
     else:
-        return substituted_matrix
+        substituted_matrix = matrix.subs(variables, values)
+        
+    if to_numpy:
+        return np.array(substituted_matrix).astype(complex)
+    else:
+        return substituted_matrix.evalf()
 
 def optimizing_identities(lhs_fun, rhs_fun, no_var, var_split, random=(0, 2 * np.pi), num_qubits=2, error=1e-7):
     compute_rhs = True

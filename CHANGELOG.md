@@ -61,7 +61,6 @@ Date: 10/2/2022
 3. Delete double_cosets to be replaced with the KAK
 4. Add printing parameter to toggle to allow for not printing results
 
-
 0.0.13 (18/02/2022)
 -------------------
 
@@ -72,3 +71,10 @@ Date: 10/2/2022
 5. Fix local_ops so that it nows includes a special unitary option
 6. Add evaluate numerical returns for to_su
 7. Add canonical_class_vector method
+
+0.0.14 (19/02/2022)
+-------------------
+
+1. Write documentation for mode.py
+2. Allow single variable input for fast_substitution
+3. Add angles parameters to u2 function

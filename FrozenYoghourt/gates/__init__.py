@@ -64,7 +64,11 @@ def Phase(theta:float):
     else:
         return Matrix([[1, 0], [0, exp(I*theta)]])
 
-def u2(unimodular = False, index = ''):
+def u2(angles:list = None, unimodular = False, index = ''):
+    
+    if type(angles) == bool:
+        unimodular = angles
+        angles = None
     
     if Mode.representation == 'numpy':
         if unimodular: 
@@ -72,7 +76,10 @@ def u2(unimodular = False, index = ''):
         else: 
             return random_unitary(2).data
     else:
-        theta, phi, lam = symbols(f'theta_{index}, phi_{index}, lambda_{index}', real = True)
+        if angles is None:
+            theta, phi, lam = symbols(f'theta_{index}, phi_{index}, lambda_{index}', real = True)
+        else:
+            theta, phi, lam = angles
         if unimodular:
             return Matrix([[exp(I*phi)*cos(theta / 2), -exp(I * -lam) * sin(theta / 2)],
                                           [exp(I * lam) * sin(theta / 2), exp(I * (-phi)) * cos(theta / 2)]])
