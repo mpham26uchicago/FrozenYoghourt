@@ -3,7 +3,6 @@ from FrozenYoghourt.mode import *
 from FrozenYoghourt.maths import *
 from FrozenYoghourt.gates import *
 
-
 def local_ops(num_qubits = 1, no_ops = 1, unimodular = False):
     
     if type(no_ops) == bool:
@@ -40,9 +39,14 @@ def kron_decomp(U:np.ndarray):
     return a, b
 
 
-def gamma(U):
+def gamma(U, unimodular = False):
     n = int(np.log2(U.shape[0]))
 
+    if (Mode.repsentation == 'numpy') and (not np.isclose(np.linalg.det(U), 1)):
+        U = to_su(U)
+    elif unimodular:
+        U = to_su(U)
+        
     E = tp(Y(), no_times=n)
     return U @ E @ U.T @ E
 

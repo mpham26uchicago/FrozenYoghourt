@@ -80,3 +80,6 @@ Date: 10/2/2022
 3. Add angles parameters to u2 function
 4. Create two new modules circuit and visualization
 5. Fix the default_import to reflect the above changes.
+6. Add scatter to visualization
+7. Fix gamma, implicitly convert matrix to unimodular if numpy and optionally if sympy
+8. Add close to math.py to compare matrices and get boolean values
