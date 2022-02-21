@@ -83,3 +83,9 @@ Date: 10/2/2022
 6. Add scatter to visualization
 7. Fix gamma, implicitly convert matrix to unimodular if numpy and optionally if sympy
 8. Add close to math.py to compare matrices and get boolean values
+
+0.0.15 (22/02/2022)
+----------------------
+
+1. Add huang_invariant to quantum
+2. Add KAK to quantum!

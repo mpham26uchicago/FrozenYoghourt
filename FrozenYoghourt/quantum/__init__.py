@@ -28,17 +28,6 @@ def global_phase(A, B):
         print('A and B are not equivalent up to global phase')
         return False
 
-def kron_decomp(U:np.ndarray):
-    m = U.reshape(2, 2, 2, 2).transpose(0, 2, 1, 3).reshape(4, 4)
-
-    u, sv, vh = np.linalg.svd(m)
-
-    a = np.sqrt(sv[0]) * u[:, 0].reshape(2, 2)
-    b = np.sqrt(sv[0]) * vh[0, :].reshape(2, 2)
-
-    return a, b
-
-
 def gamma(U, unimodular = False):
     n = int(np.log2(U.shape[0]))
 
@@ -122,4 +111,70 @@ def canonical_class_vector(x, y, z, return_phase = True):
     else:
         return k[0], k[1], k[2]
 
-### Add huang_invariant tomorrow
+def huang_invariant(U):
+    V = dagger(Magic())@to_su(U)@Magic()
+    
+    if Mode.representation == 'numpy':    
+        D,O = np.linalg.eig(V@V.T)
+        spectrum = np.angle(D)
+        spectrum[3] -= np.sum(spectrum)
+        
+        C = np.prod(np.sin(1/2 * spectrum))
+        B = -1/4 * np.sum(np.sin(spectrum))
+        A = np.prod(np.cos(1/2 * spectrum))
+        
+        return C, B, A
+
+    else:
+        Real, Imag = Matrix(V).as_real_imag()
+        t = symbols('t')
+        poly = det(Real + t*Imag)
+        character_polynomial, _ = div(poly.args[1], 1/poly.args[0])
+        
+        return character_polynomial
+
+def is_local(U):
+    M = Magic()
+    V = dagger(M)@to_su(U)@M
+    assert np.isclose(np.linalg.det(V), 1), 'Determinant not 1'
+    assert np.all(np.isclose(V@V.T, np.identity(4))), 'Not SO(4)'
+    
+def kron_decomp(U:np.ndarray):
+    
+    islocal(U) # Check if gates is local
+    
+    m = U.reshape(2, 2, 2, 2).transpose(0, 2, 1, 3).reshape(4, 4)
+
+    u, sv, vh = np.linalg.svd(m)
+
+    a = np.sqrt(sv[0]) * u[:, 0].reshape(2, 2)
+    b = np.sqrt(sv[0]) * vh[0, :].reshape(2, 2)
+
+    return a, b
+
+def KAK(U:np.ndarray):
+    
+    M = Magic()
+    
+    phase = global_phase(to_su(U), U)
+    V = dagger(M)@to_su(U)@M
+    D_squared, P = np.linalg.eig(V.T@V)
+
+    spectrum = np.angle(D_squared) # These steps make sure that D stays unimodular after the square root
+    spectrum[3] -= np.sum(spectrum)
+    spectrum = (spectrum/2).reshape(4, )
+
+    t_list = Gamma().T@spectrum
+
+    D = np.diag(np.exp(1j*spectrum))
+    
+    if np.isclose(np.linalg.det(P), -1): # If the determinant of P is -1, turn it to 1
+        P[:, 0] = -P[:, 0]
+    
+    Q_1, Q_2 = P.T, V@P@np.conj(D).T # Extract the outer orthogonal gates
+
+    A = np.exp(1j*t_list[0]/2) * CAN(t_list[1], t_list[2], t_list[3]) # Construct canonical matrix
+
+    K1, K2 = M@Q_1@dagger(M), M@Q_2@dagger(M) # Extract local gates
+
+    return K2, A, K1, phase
