@@ -2,9 +2,7 @@ from FrozenYoghourt import *
 from FrozenYoghourt.mode import *
 from FrozenYoghourt.maths import *
 
-
-
-def Id():
+def ID():
     if Mode.representation == 'numpy':
         return np.array([[1, 0], [0, 1]])
     else:
@@ -27,6 +25,50 @@ def Z():
         return np.array([[1, 0], [0, -1]])
     else:
         return Matrix([[1, 0], [0, -1]])
+    
+def pauli(val, mul = 1):
+    
+    """
+    Return a Pauli matrix or tensor product of matrices
+    
+    Parameter
+    ---------
+    val: int, str, list
+        Value or list of values of matrices in either integer (0, 1, 2, 3)
+        or string ('i', 'x', 'y', 'z') form. If a list is given, compute 
+        the tensor product of the pauli's in the list from left to right.
+    
+    mul: int
+        Multiplicity of value or list of values
+        
+    Returns
+    -------
+    pauli_mat: np.ndarray, sympy.Matrices
+        Pauli matrix or tensor product of matrices
+        
+    """
+    
+    option = type(val)
+    if option == list:
+        option = type(val[0])
+    
+    if option == int:
+        num = {0: ID(), 1: X(), 2: Y(), 3:Z()}
+        if type(val) == int:
+            pauli_mat = tp(num[val], mul = mul)
+        else:
+            pauli_list = [num[elem] for elem in val]
+            pauli_mat = tp(*pauli_list, mul = mul)
+      
+    elif option == str:
+        text = {'i': ID(), 'x': X(), 'y': Y(), 'z': Z()}
+        if type(val) == str:
+            pauli_mat = tp(text[val], mul = mul)
+        else:
+            pauli_list = [text[elem] for elem in val]
+            pauli_mat = tp(*pauli_list, mul = mul)
+            
+    return pauli_mat
 
 def H():
     if Mode.representation == 'numpy':

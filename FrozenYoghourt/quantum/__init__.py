@@ -28,10 +28,10 @@ def global_phase(A, B):
         print('A and B are not equivalent up to global phase')
         return False
 
-def gamma(U, unimodular = False):
+def ymap(U, unimodular = False):
     n = int(np.log2(U.shape[0]))
 
-    if (Mode.repsentation == 'numpy') and (not np.isclose(np.linalg.det(U), 1)):
+    if (Mode.representation == 'numpy') and (not np.isclose(np.linalg.det(U), 1)):
         U = to_su(U)
     elif unimodular:
         U = to_su(U)
@@ -39,7 +39,7 @@ def gamma(U, unimodular = False):
     E = tp(Y(), no_times=n)
     return U @ E @ U.T @ E
 
-def chi(M, variable=None):
+def xmap(M, variable=None):
     dim = M.shape[0]
 
     coef = np.array([1])
@@ -67,11 +67,11 @@ def chi(M, variable=None):
 def shende_invariant(U, V = None, return_charpoly = False):
 
     if V is None:
-        return chi(gamma(to_su(U)))
+        return xmap(ymap(to_su(U)))
     
     elif Mode.representation == 'numpy':
-        charpoly_U = chi(gamma(to_su(U)))
-        charpoly_V = chi(gamma(to_su(V)))
+        charpoly_U = xmap(ymap(to_su(U)))
+        charpoly_V = xmap(ymap(to_su(V)))
         
         if return_charpoly:
             return np.all(np.isclose(charpoly_U, charpoly_V)), charpoly_U, charpoly_V
@@ -79,37 +79,14 @@ def shende_invariant(U, V = None, return_charpoly = False):
             return np.all(np.isclose(charpoly_U, charpoly_V))
         
     else: ## This needs fixing because the determinant function doesn't work
-        charpoly_U = chi(gamma(to_su(U)))
-        charpoly_V = chi(gamma(to_su(V)))
+        charpoly_U = xmap(ymap(to_su(U)))
+        charpoly_V = xmap(ymap(to_su(V)))
         
         if return_charpoly:
             return charpoly_U.equals(charpoly_V), charpoly_U, charpoly_V
         else:
             return charpoly_U.equals(charpoly_V)
 
-
-def canonical_class_vector(x, y, z, return_phase = True):
-    
-    # Step 1 and 2
-    param = np.array([x, y, z])
-    shift = param // np.pi
-    phase = np.exp(-1j*(np.pi/2)*(np.sum(shift)%2)) # Keep track of whether to add phase to correct for KAK
-    k = np.sort(param - np.pi*shift)[::-1]
-
-    # Step 3
-    if k[0] + k[1] > np.pi:
-        k = np.sort(np.array([np.pi - k[1], np.pi - k[0], k[2]]))[::-1]
-
-    # Step 4
-    if np.isclose(k[2], 0) and (k[0] > np.pi/2):
-        k[0] = np.pi - k[0]
-        k = np.sort(k)[::-1]
-        phase *= 1j
-    
-    if return_phase:
-        return k[0], k[1], k[2], phase
-    else:
-        return k[0], k[1], k[2]
 
 def huang_invariant(U):
     V = dagger(Magic())@to_su(U)@Magic()
@@ -136,12 +113,14 @@ def huang_invariant(U):
 def is_local(U):
     M = Magic()
     V = dagger(M)@to_su(U)@M
-    assert np.isclose(np.linalg.det(V), 1), 'Determinant not 1'
-    assert np.all(np.isclose(V@V.T, np.identity(4))), 'Not SO(4)'
+    if np.isclose(np.linalg.det(V), 1) and np.all(np.isclose(V@V.T, np.identity(4))):
+        return True
+    else: 
+        return False
     
 def kron_decomp(U:np.ndarray):
     
-    islocal(U) # Check if gates is local
+    assert is_local(U), 'Matrix is not local' # Check if gates is local
     
     m = U.reshape(2, 2, 2, 2).transpose(0, 2, 1, 3).reshape(4, 4)
 

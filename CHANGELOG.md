@@ -89,3 +89,11 @@ Date: 10/2/2022
 
 1. Add huang_invariant to quantum
 2. Add KAK to quantum!
+3. Change Id method to ID to avoid collision
+4. Add a pauli method to gates to compute tensor product of pauli matrices
+5. Change no_times argument in tp and mm to mult (for multiplicity)
+6. Change view in __init__ to allow for displaying sympy matrices with rounding
+7. Change gamma method to ymap and chi method to xmap
+8. Fix is_local to return boolean value
+9. Create a new decomposition.py file
+10. Delete canonical_class_vector for step1-4 in decomposition

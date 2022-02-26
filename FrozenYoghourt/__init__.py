@@ -50,6 +50,6 @@ def view(mat, rounding = 10):
     if type(mat) == np.ndarray:
         display(Matrix(np.round(mat, rounding)))
     else:
-        display(mat.evalf(rounding))
+        display(Matrix(np.round(np.array(mat.evalf()).astype(complex), rounding)))
         
    

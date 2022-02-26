@@ -3,12 +3,12 @@ from FrozenYoghourt.mode import *
 
 close = lambda a, b: np.all(np.isclose(a, b))
 
-def mm(*lst, no_times=1):
-    lst *= no_times
+def mm(*lst, mult=1):
+    lst *= mult
     return reduce(lambda a, b: a @ b, lst)
 
-def tp(*lst, no_times=1):
-    lst *= no_times
+def tp(*lst, mult=1):
+    lst *= mult
     if Mode.representation == 'numpy':
         return reduce(lambda a, b: np.kron(a, b), lst)
     else:
