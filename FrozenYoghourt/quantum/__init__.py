@@ -14,7 +14,7 @@ def local_ops(num_qubits = 1, no_ops = 1, unimodular = False):
         return [tp(*[u2(unimodular, i) for i in range(j*num_qubits, (j+1)*num_qubits)]) for j in range(no_ops)]
 
 def epsilon(psi, num_qubits=2):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.abs(psi.T @ tp(Y(), no_times=num_qubits) @ psi)[0]
     else:
         return Abs(psi.T @ tp(Y(), no_times=num_qubits) @ psi)[0]
@@ -31,7 +31,7 @@ def global_phase(A, B):
 def ymap(U, unimodular = False):
     n = int(np.log2(U.shape[0]))
 
-    if (Mode.representation == 'numpy') and (not np.isclose(np.linalg.det(U), 1)):
+    if (Mode.representation == 'numerical') and (not np.isclose(np.linalg.det(U), 1)):
         U = to_su(U)
     elif unimodular:
         U = to_su(U)
@@ -51,7 +51,7 @@ def xmap(M, variable=None):
         Mk += np.diag(np.repeat(ak, dim))
         Mk = np.dot(M, Mk)
 
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return coef
 
     else:
@@ -69,7 +69,7 @@ def shende_invariant(U, V = None, return_charpoly = False):
     if V is None:
         return xmap(ymap(to_su(U)))
     
-    elif Mode.representation == 'numpy':
+    elif Mode.representation == 'numerical':
         charpoly_U = xmap(ymap(to_su(U)))
         charpoly_V = xmap(ymap(to_su(V)))
         
@@ -91,7 +91,7 @@ def shende_invariant(U, V = None, return_charpoly = False):
 def huang_invariant(U):
     V = dagger(Magic())@to_su(U)@Magic()
     
-    if Mode.representation == 'numpy':    
+    if Mode.representation == 'numerical':    
         D,O = np.linalg.eig(V@V.T)
         spectrum = np.angle(D)
         spectrum[3] -= np.sum(spectrum)

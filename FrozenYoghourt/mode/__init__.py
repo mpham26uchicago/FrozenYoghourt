@@ -3,12 +3,12 @@ from FrozenYoghourt import *
 
 class Mode:
     """
-    A class to help with switching between Numpy and Sympy
+    A class to help with switching between Numerical mode and Symbolic mode
     
     Attributes
     ----------
     representation: str
-        a string to represent the current mode ('numpy' or 'sympy')
+        a string to represent the current mode ('numerical' or 'symbolic')
         
     Methods
     -------
@@ -19,9 +19,7 @@ class Mode:
     
     """
     
-    
-    
-    representation = 'numpy'
+    representation = 'numerical'
     
     @classmethod
     def toggle(cls, specific_mode = None, printing = True):
@@ -41,15 +39,16 @@ class Mode:
         """
 
         if specific_mode is None:
-            cls.representation = {'numpy': 'sympy',
-                                  'sympy': 'numpy'}[cls.representation]
+            cls.representation = {'numerical': 'symbolic',
+                                  'symbolic': 'numerical'}[cls.representation]
             if printing:
                 print(f'\033[1;34m{cls.representation.upper()} \033[1;32mactivated')
         else:
-            cls.representation = {'n': 'numpy', 
-                                  'numpy': 'numpy', 
-                                  's': 'sympy', 
-                                  'sympy':'sympy'}[specific_mode]
+            cls.representation = {'n': 'numerical', 
+                                  'numpy':'numerical', 
+                                  'numerical':'numerical',
+                                  's': 'symbolic', 
+                                  'sympy':'symbolic', 'symbolic':'symbolic'}[specific_mode]
             if printing:
                 print(f'\033[1;34m{cls.representation.upper()} \033[1;32mactivated')
             

@@ -9,13 +9,13 @@ def mm(*lst, mult=1):
 
 def tp(*lst, mult=1):
     lst *= mult
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return reduce(lambda a, b: np.kron(a, b), lst)
     else:
         return TensorProduct(*lst)
 
 def dagger(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         if len(u) == 1:
             return np.conj(u[0].T)
         else:
@@ -29,7 +29,7 @@ def dagger(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
             return dagger_list
     
 def svd(A:np.ndarray):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.linalg.svd(A)
     else:
         AH = A.H
@@ -65,7 +65,7 @@ def svd(A:np.ndarray):
         return U, S, V
 
 def to_su(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         if len(u) == 1:
             return u[0] * complex(np.linalg.det(u[0])) ** (-1 / np.shape(u[0])[0])
         else:

@@ -3,30 +3,30 @@ from FrozenYoghourt.mode import *
 from FrozenYoghourt.maths import *
 
 def ID():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[1, 0], [0, 1]])
     else:
         return Matrix([[1, 0], [0, 1]])
 
 def X():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[0, 1], [1, 0]])
     else:
         return Matrix([[0, 1], [1, 0]])
 
 def Y():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[0, -1j], [1j, 0]])
     else:
         return Matrix([[0, -I], [I, 0]])
 
 def Z():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[1, 0], [0, -1]])
     else:
         return Matrix([[1, 0], [0, -1]])
     
-def pauli(val, mul = 1):
+def pauli(val, mult = 1):
     
     """
     Return a Pauli matrix or tensor product of matrices
@@ -63,21 +63,21 @@ def pauli(val, mul = 1):
     elif option == str:
         text = {'i': ID(), 'x': X(), 'y': Y(), 'z': Z()}
         if type(val) == str:
-            pauli_mat = tp(text[val], mul = mul)
+            pauli_mat = tp(text[val], mult = mult)
         else:
             pauli_list = [text[elem] for elem in val]
-            pauli_mat = tp(*pauli_list, mul = mul)
+            pauli_mat = tp(*pauli_list, mult = mult)
             
     return pauli_mat
 
 def H():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return 1 / np.sqrt(2) * np.array([[1, 1], [1, -1]])
     else:
         return 1 / sqrt(2) * Matrix([[1, 1], [1, -1]])
 
 def Rx(theta:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[np.cos(theta / 2), -1j * np.sin(theta / 2)],
                          [-1j * np.sin(theta / 2), np.cos(theta / 2)]])
     else:
@@ -85,7 +85,7 @@ def Rx(theta:float):
                        [-I * sin(theta / 2), cos(theta / 2)]])
 
 def Ry(theta:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[np.cos(theta / 2), -np.sin(theta / 2)],
                          [np.sin(theta / 2), np.cos(theta / 2)]])
     else:
@@ -93,7 +93,7 @@ def Ry(theta:float):
                        [sin(theta / 2), cos(theta / 2)]])
 
 def Rz(theta:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[np.exp(-1j * theta / 2), 0],
                          [0, np.exp(1j * theta / 2)]])
     else:
@@ -101,7 +101,7 @@ def Rz(theta:float):
                        [0, exp(I * theta / 2)]])
 
 def Phase(theta:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[1, 0], [0, np.exp(1j*theta)]])
     else:
         return Matrix([[1, 0], [0, exp(I*theta)]])
@@ -112,7 +112,7 @@ def u2(angles:list = None, unimodular = False, index = ''):
         unimodular = angles
         angles = None
     
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         if unimodular: 
             return to_su(random_unitary(2).data)
         else: 
@@ -130,7 +130,7 @@ def u2(angles:list = None, unimodular = False, index = ''):
                                            [exp(I * phi) * sin(theta / 2), exp(I * (phi + lam)) * cos(theta / 2)]])
 
 def CX():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[1, 0, 0, 0],
                          [0, 1, 0, 0],
                          [0, 0, 0, 1],
@@ -144,7 +144,8 @@ def CX():
 def CU(control, target, U, no_qubits = 2):
     """
     Manually build the unitary matrix for non-adjacent CU gates
-    Parameters:
+    
+    Parameters
     -----------
     control: int
         Index of the control qubit (1st qubit is index 0)
@@ -156,6 +157,7 @@ def CU(control, target, U, no_qubits = 2):
         Qubits order convention
     no_qubits: int
         Number of qubits in the circuit
+        
     Returns:
     --------
     cx_out:
@@ -165,7 +167,7 @@ def CU(control, target, U, no_qubits = 2):
     left = [Id()] * no_qubits
     right = [Id()] * no_qubits
 
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
 
         left[control] = np.array([[1, 0], [0, 0]])
         right[control] = np.array([[0, 0], [0, 1]])
@@ -182,7 +184,7 @@ def CU(control, target, U, no_qubits = 2):
     return cu_out
 
 def Swap():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[1, 0, 0, 0],
                          [0, 0, 1, 0],
                          [0, 1, 0, 0],
@@ -194,7 +196,7 @@ def Swap():
                        [0, 0, 0, 1]])
 
 def SQiSW():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[1, 0, 0, 0],
                          [0, 1 / np.sqrt(2), 1j / np.sqrt(2), 0],
                          [0, 1j / np.sqrt(2), 1 / np.sqrt(2), 0],
@@ -206,7 +208,7 @@ def SQiSW():
                        [0, 0, 0, 1]])
 
 def Gamma():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return 1/2 * np.array([[1, -1, 1, -1], 
                                [1, 1, -1, -1], 
                                [1, -1, -1, 1], 
@@ -218,7 +220,7 @@ def Gamma():
                              [1, 1, 1, 1]])
 
 def Magic():
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return 1 / np.sqrt(2) * np.array([[1, 1j, 0, 0],
                                           [0, 0, 1j, 1],
                                           [0, 0, 1j, -1],
@@ -230,7 +232,7 @@ def Magic():
                                      [1, -I, 0, 0]])
 
 def Rxx(theta:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[np.cos(theta / 2), 0, 0, -1j * np.sin(theta / 2)],
                          [0, np.cos(theta / 2), -1j * np.sin(theta / 2), 0],
                          [0, -1j * np.sin(theta / 2), np.cos(theta / 2), 0],
@@ -242,7 +244,7 @@ def Rxx(theta:float):
                        [-I * sin(theta / 2), 0, 0, cos(theta / 2)]])
 
 def Ryy(theta:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[np.cos(theta / 2), 0, 0, 1j * np.sin(theta / 2)],
                          [0, np.cos(theta / 2), -1j * np.sin(theta / 2), 0],
                          [0, -1j * np.sin(theta / 2), np.cos(theta / 2), 0],
@@ -254,7 +256,7 @@ def Ryy(theta:float):
                        [I * sin(theta / 2), 0, 0, cos(theta / 2)]])
 
 def Rzz(theta:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[np.exp(-1j * theta / 2), 0, 0, 0],
                          [0, np.exp(1j * theta / 2), 0, 0],
                          [0, 0, np.exp(1j * theta / 2), 0],
@@ -266,7 +268,7 @@ def Rzz(theta:float):
                        [0, 0, 0, exp(-I * theta / 2)]])
 
 def CAN(tx:float, ty:float, tz:float):
-    if Mode.representation == 'numpy':
+    if Mode.representation == 'numerical':
         return np.array([[np.exp(-1j*tz/2)*np.cos((tx-ty)/2), 0, 0, -1j*np.exp(-1j*tz/2)*np.sin((tx-ty)/2)], 
                          [0, np.exp(1j*tz/2)*np.cos((tx+ty)/2), -1j*np.exp(1j*tz/2)*np.sin((tx+ty)/2), 0], 
                          [0, -1j*np.exp(1j*tz/2)*np.sin((tx+ty)/2), np.exp(1j*tz/2)*np.cos((tx+ty)/2), 0], 

@@ -1,12 +1,8 @@
-# Change Log
-
-==========
+Change Log
+----------
 
 0.0.1 (10/02/2022)
 ------------------
-- First Release
-
-Date: 10/2/2022
 
 1. Wrote README file
 2. Add P gates method to gates.py
@@ -24,7 +20,7 @@ Date: 10/2/2022
 0.0.7 (12/02/2022)
 ------------------
 
-1. Import gates.py to quantum.py
+1. Import gates to quantum
 
 0.0.8 (12/02/2022)
 ------------------
@@ -35,7 +31,7 @@ Date: 10/2/2022
 4. Allow for doing to_su on list of matrices.
 
 0.0.10.1 (15/02/2022)
--------------------
+---------------------
 
 1. Add view method to visualize numerical matrices
 2. Add CAN method
@@ -97,3 +93,8 @@ Date: 10/2/2022
 8. Fix is_local to return boolean value
 9. Create a new decomposition.py file
 10. Delete canonical_class_vector for step1-4 in decomposition
+
+0.0.16 (27/02/2022)
+---------------------
+
+1. Change 'numpy' to 'numerical' and 'sympy' and 'symbolic'
