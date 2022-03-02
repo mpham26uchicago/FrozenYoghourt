@@ -141,7 +141,7 @@ def CX():
                        [0, 0, 0, 1],
                        [0, 0, 1, 0]])
 
-def CU(control, target, U, no_qubits = 2):
+def CU(control, target, U, num_qubits = 2):
     """
     Manually build the unitary matrix for non-adjacent CU gates
     
@@ -153,9 +153,7 @@ def CU(control, target, U, no_qubits = 2):
         Index of the target qubit (1st qubit is index 0)
     U: ndarray
         Target unitary matrix
-    edian: bool (True: qiskit convention)
-        Qubits order convention
-    no_qubits: int
+    num_qubits: int
         Number of qubits in the circuit
         
     Returns:
@@ -164,8 +162,8 @@ def CU(control, target, U, no_qubits = 2):
         Unitary matrix for CU gate
     """
 
-    left = [Id()] * no_qubits
-    right = [Id()] * no_qubits
+    left = [ID()] * num_qubits
+    right = [ID()] * num_qubits
 
     if Mode.representation == 'numerical':
 

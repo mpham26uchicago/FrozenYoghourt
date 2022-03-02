@@ -94,7 +94,9 @@ Change Log
 9. Create a new decomposition.py file
 10. Delete canonical_class_vector for step1-4 in decomposition
 
-0.0.16 (27/02/2022)
+0.0.16 (06/03/2022)
 ---------------------
 
 1. Change 'numpy' to 'numerical' and 'sympy' and 'symbolic'
+2. Fix CU from Id to ID
+3. Add a NumericalCircuit method to circuit. Includes 'x, y, z, h, rx, ry, rz, cx' method.
