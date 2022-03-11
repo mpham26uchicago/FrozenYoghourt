@@ -3,16 +3,6 @@ from FrozenYoghourt.mode import *
 from FrozenYoghourt.maths import *
 from FrozenYoghourt.gates import *
 
-def local_ops(num_qubits = 1, no_ops = 1, unimodular = False):
-    
-    if type(no_ops) == bool:
-        unimodular = no_ops; no_ops = 1
-    
-    if no_ops == 1:
-        return tp(*[u2(unimodular, i) for i in range(num_qubits)])
-    else:
-        return [tp(*[u2(unimodular, i) for i in range(j*num_qubits, (j+1)*num_qubits)]) for j in range(no_ops)]
-
 def epsilon(psi, num_qubits=2):
     if Mode.representation == 'numerical':
         return np.abs(psi.T @ tp(Y(), no_times=num_qubits) @ psi)[0]
@@ -157,3 +147,39 @@ def KAK(U:np.ndarray):
     K1, K2 = M@Q_1@dagger(M), M@Q_2@dagger(M) # Extract local gates
 
     return K2, A, K1, phase
+
+def bra(x: Union[str, int], num_qubits = None):
+    
+    if isinstance(x, str):
+        num_qubits = len(x)
+    elif num_qubits is None:
+        num_qubits = len(bin(x))-2
+        
+    x_val = int(x)
+    
+    if Mode.representation == 'numerical':
+        full_bra = np.zeros((1, 2**num_qubits))
+    else:
+        full_bra = zeros(1, 2**num_qubits)
+        
+    full_bra[0, x_val] = 1
+    
+    return full_bra 
+
+def ket(x: Union[str, int], num_qubits = None):
+    
+    if isinstance(x, str):
+        num_qubits = len(x)
+    elif num_qubits is None:
+        num_qubits = len(bin(x))-2
+        
+    x_val = int(x)
+    
+    if Mode.representation == 'numerical':
+        full_ket = np.zeros((2**num_qubits, 1))
+    else:
+        full_ket = zeros(2**num_qubits, 1)
+        
+    full_ket[x_val, 0] = 1
+    
+    return full_ket

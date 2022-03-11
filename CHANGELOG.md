@@ -94,9 +94,13 @@ Change Log
 9. Create a new decomposition.py file
 10. Delete canonical_class_vector for step1-4 in decomposition
 
-0.0.16 (06/03/2022)
+0.0.16 (13/03/2022)
 ---------------------
 
 1. Change 'numpy' to 'numerical' and 'sympy' and 'symbolic'
-2. Fix CU from Id to ID
-3. Add a NumericalCircuit method to circuit. Includes 'x, y, z, h, rx, ry, rz, cx' method.
+2. Add a NumericalCircuit method to circuit. Includes 'x, y, z, h, rx, ry, rz, cx' method. Redo 'cx' method with new mechanism.
+3. Add n-qubits bra and ket to quantum
+4. Change Swap method to allow for multi-qubit swap gate
+5. Reorganize gates into single, double and multi qubit gates
+6. Simplify CU to only do 2 qubits
+7. Move local_ops from quantum to gates.
