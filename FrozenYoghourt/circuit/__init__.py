@@ -10,7 +10,6 @@ class NumericalCircuit:
         self.num_qubits = num_qubits
         self.unitary = np.eye(2**num_qubits)
         
-    # class method
     def x(self, qubit: Union[int, list]):
         if isinstance(qubit, int):
             gate_unitary_list = [X() if index == qubit else ID() for index in range(self.num_qubits)]

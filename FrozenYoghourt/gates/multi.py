@@ -1,15 +1,37 @@
 from FrozenYoghourt import *
 from FrozenYoghourt.mode import *
 from FrozenYoghourt.maths import *
-from FrozenYoghourt.single import *
-from FrozenYoghourt.double import *
+from FrozenYoghourt.gates.single import *
+from FrozenYoghourt.gates.double import *
 
 def local_ops(num_qubits = 1, no_ops = 1, unimodular = False):
+    """
+    Parameters
+    ----------
+    num_qubits : int, optional
+        The number of qubits.
+        If not specified, the number of qubits is set to 1.
+    no_ops : int, optional
+        The number of local operators to generate.
+        If not specified, the number of local operators is set to 1.
+    unimodular : bool, optional
+        If set to True, the local operators are generated with unimodular angles.
+        If set to False, the local operators are generated with random angles.
+        If not specified, the local operators are generated with random angles.
+    
+    Returns
+    -------
+    local_ops : list or numpy.ndarray or sympy.Matrix
+        A list of local operators.
+        If no_ops is 1, a single matrix is returned
+        Each operator is a tensor product of "num_qubits" unitary matrices.
+    """
     
     if type(no_ops) == bool:
         unimodular = no_ops; no_ops = 1
     
     if no_ops == 1:
+        
         return tp(*[u2(unimodular, i) for i in range(num_qubits)])
     else:
         return [tp(*[u2(unimodular, i) for i in range(j*num_qubits, (j+1)*num_qubits)]) for j in range(no_ops)]
@@ -17,7 +39,7 @@ def local_ops(num_qubits = 1, no_ops = 1, unimodular = False):
 def pauli(val, mult = 1):
     
     """
-    Return a Pauli matrix or tensor product of matrices
+    Return a Pauli matrix or tensor product of Pauli matrices
     
     Parameter
     ---------
@@ -27,12 +49,12 @@ def pauli(val, mult = 1):
         the tensor product of the pauli's in the list from left to right.
     
     mul: int
-        Multiplicity of value or list of values
+        Multiplicity value or list of multiplicity values
         
     Returns
     -------
-    pauli_mat: np.ndarray, sympy.Matrices
-        Pauli matrix or tensor product of matrices
+    pauli_mat: np.ndarray or sympy.Matrix
+        Pauli matrix or tensor product of Pauli matrices
         
     """
     
@@ -47,7 +69,7 @@ def pauli(val, mult = 1):
         else:
             pauli_list = [num[elem] for elem in val]
             pauli_mat = tp(*pauli_list, mul = mul)
-      
+            
     elif option == str:
         text = {'i': ID(), 'x': X(), 'y': Y(), 'z': Z()}
         if type(val) == str:
@@ -59,6 +81,25 @@ def pauli(val, mult = 1):
     return pauli_mat
 
 def Swap(q1, q2, num_qubits):
+    
+    """
+    Generate a multi-qubits swap matrix.
+    
+    Parameters
+    ----------
+    q1 : int
+        The index of the first qubit to be swapped.
+    q2 : int
+        The index of the second qubit to be swapped.
+    num_qubits : int
+        The number of qubits in the system.
+
+    Returns
+    -------
+    swap_matrix : np.ndarray or sympy.Matrix
+        The swap matrix.
+    """
+
     
     order_list = []
 

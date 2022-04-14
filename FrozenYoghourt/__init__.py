@@ -1,4 +1,5 @@
 import numpy as np
+import scipy
 from sympy import *
 from sympy.physics.quantum import TensorProduct
 from functools import reduce
@@ -7,39 +8,39 @@ from scipy.optimize import minimize
 from numpy.testing import assert_array_almost_equal as aae
 from typing import *
 import matplotlib.pyplot as plt
+import pyperclip
 
-def default_import(items:list = ['a', 'r', 'g', 'm', 'q', 'c', 'v']):
+def default_import(copy = True, ):
+    """Just import everything"""
     
-    """
-    Print the import statement for the inputted modules
+    import_lst = [
+    "from FrozenYoghourt import *",
+    "from FrozenYoghourt import *",
+    "from FrozenYoghourt.mode import *",
+    "from FrozenYoghourt.gates import *",
+    "from FrozenYoghourt.gates.single import *",
+    "from FrozenYoghourt.gates.double import *",
+    "from FrozenYoghourt.gates.multi import *",
+    "from FrozenYoghourt.maths import *",
+    "from FrozenYoghourt.quantum import *",
+    "from FrozenYoghourt.quantum.decomposition import *",
+    "from FrozenYoghourt.circuit import *",
+    "from FrozenYoghourt.visualization import *",
+    ]
     
-    Parameter
-    ---------
-    items: list, optional
-        List of modules to import
-    """
+    import_str = '\n'.join(import_lst)
     
-    import_statements = {'a': 'from FrozenYoghourt import *\n', 
-                         'r': 'from FrozenYoghourt.mode import *\n', 
-                         'g': 'from FrozenYoghourt.gates import *\n', 
-                         'm': 'from FrozenYoghourt.maths import *\n', 
-                         'q': 'from FrozenYoghourt.quantum import *\n', 
-                         'c': 'from FrozenYoghourt.circuit import *\n', 
-                         'v': 'from FrozenYoghourt.visualization import *\n'}
-    
-    
-    import_str = ''
-    for item in items:
-        import_str += import_statements[item]
-        
-    print(import_str)
+    if copy:
+        pyperclip.copy(import_str)
+        print('\033[1;34mCopied to clipboard!\033[1;32m')
+    else:
+        print(import_str)
     
 def view(mat, rounding = 10):
-    
     """
     Display matrix in Latex format with the appropriate rounding
     
-    Parameter
+    Parameters
     ---------
     mat: numpy.ndarray, sympy.matrices.dense.MutableDenseMatrix
         Matrix to be viewed
@@ -51,5 +52,3 @@ def view(mat, rounding = 10):
         display(Matrix(np.round(mat, rounding)))
     else:
         display(Matrix(np.round(np.array(mat.evalf()).astype(complex), rounding)))
-        
-   

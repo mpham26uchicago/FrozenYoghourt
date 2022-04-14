@@ -104,3 +104,14 @@ Change Log
 5. Reorganize gates into single, double and multi qubit gates
 6. Simplify CU to only do 2 qubits
 7. Move local_ops from quantum to gates.
+
+0.0.16 (14/04/2022)
+---------------------
+
+1. Write docstring for maths.py
+2. Delete close function, now use np.allclose instead
+3. Write docstring for single.py (gates)
+4. Write docstring for double.py (gates)
+5. Write docstring for multi.py (gates)
+6. Write docstring for quantum.py (except decomposition.py)
+7. Change default_import to print everything (or automatically copy to clipboard)
