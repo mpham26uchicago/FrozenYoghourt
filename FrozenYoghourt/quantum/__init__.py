@@ -4,12 +4,52 @@ from FrozenYoghourt.maths import *
 from FrozenYoghourt.gates import *
 
 def epsilon(psi, num_qubits=2):
+    """
+    Calculate the epsilon parameter of a given state
+    
+    Parameters
+    ----------
+    psi : ndarray
+        The state vector of the system.
+    num_qubits : int
+        The number of qubits in the system.
+
+    Returns
+    -------
+    float
+        The epsilon parameter of the system.
+
+    Notes
+    -----
+    The epsilon parameter is a measure of the entanglement of the system.
+    It is defined as the absolute value of the inner product of the state
+    vector with the tensor product of the Pauli Y operator with itself
+    "num_qubits" times.
+    """
+    
     if Mode.representation == 'numerical':
         return np.abs(psi.T @ tp(Y(), no_times=num_qubits) @ psi)[0]
     else:
         return Abs(psi.T @ tp(Y(), no_times=num_qubits) @ psi)[0]
 
 def global_phase(A, B):
+    """
+    This function checks if two matrices A and B are equivalent up to a global phase.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D numpy array of complex numbers.
+    B : numpy.ndarray
+        A 2D numpy array of complex numbers.
+
+    Returns
+    -------
+    numpy.ndarray
+        A 1D numpy array of complex numbers, containing the global phase factor.
+        If A and B are not equivalent up to a global phase, the function returns False.
+    """
+    
     D = np.diag(np.conj(A).T @ B)
 
     if np.isclose(np.min(D), np.max(D)):
@@ -19,6 +59,25 @@ def global_phase(A, B):
         return False
 
 def ymap(U, unimodular = False):
+    """
+    This function returns the Y-map of a given unitary matrix U. The Y-map is used
+    to calculate the double coset of a 4x4 unitary matrix 
+    (Page 3 https://web.eecs.umich.edu/~imarkov/pubs/jour/pra04-univ.pdf).
+    
+    Parameters
+    ----------
+    U : np.ndarray or sympy.Matrix
+        The unitary matrix to be mapped.
+    unimodular : bool, optional
+        If True, the function will convert U to a special unitary matrix before applying the Y-map.
+        The default is False.
+    
+    Returns
+    -------
+    np.ndarray or sympy.Matrix
+        The Y-map of U.
+    """
+    
     n = int(np.log2(U.shape[0]))
 
     if (Mode.representation == 'numerical') and (not np.isclose(np.linalg.det(U), 1)):
@@ -30,6 +89,28 @@ def ymap(U, unimodular = False):
     return U @ E @ U.T @ E
 
 def xmap(M, variable=None):
+    """
+    This function returns the coefficients of the characteristic
+    polynomial of a given matrix. The name xmap comes from the 
+    "chi invariant" on Page 2 https://arxiv.org/pdf/quant-ph/0308045.pdf.
+    
+    Parameters
+    ----------
+    M: np.ndarray or sympy.Matrix
+        The unitary matrix.
+    variable: None, optional
+        Variable to represent the characteristic polynomial.
+        
+    Returns
+    -------
+    If mode is "numerical":
+    coef: np.ndarray
+        Return an array of the characteristic coefficients.
+    If mode is "symbolic"
+    charpoly: sympy.Poly
+        Return the characteristic polynomial. 
+    """
+    
     dim = M.shape[0]
 
     coef = np.array([1])
@@ -55,6 +136,34 @@ def xmap(M, variable=None):
             return char_poly
 
 def shende_invariant(U, V = None, return_charpoly = False):
+    
+    """
+    Calculate the Shende invariant for a 4x4 unitary matrix U
+    given on page 3 of https://web.eecs.umich.edu/~imarkov/pubs/jour/pra04-univ.pdf
+    
+    Parameters:
+    -----------
+    U : numpy.ndarray
+        A square matrix of size n.
+    V : numpy.ndarray
+        A square matrix of size n.
+    return_charpoly : bool
+        If True, the Shende invariant of U and V are returned, 
+        even if they are not equal.
+        
+    Returns:
+    --------
+    If return_charpoly is False:
+        equivalent (bool): If True, V and U are equivalent.
+        If False, V and U are not equivalent.
+
+    If return_charpoly is True:
+        equivalent (bool): If True, V and U are equivalent.
+        If False, V and U are not equivalent.
+        charpoly_U (np.matrix): The Shende invariant of U.
+        charpoly_V (np.matrix): The Shende invariant of V.
+        
+    """
 
     if V is None:
         return xmap(ymap(to_su(U)))
@@ -63,22 +172,42 @@ def shende_invariant(U, V = None, return_charpoly = False):
         charpoly_U = xmap(ymap(to_su(U)))
         charpoly_V = xmap(ymap(to_su(V)))
         
+        charpoly_equiv = np.allclose(charpoly_U, charpoly_V)
+        
         if return_charpoly:
-            return np.all(np.isclose(charpoly_U, charpoly_V)), charpoly_U, charpoly_V
+            return charpoly_equiv, charpoly_U, charpoly_V
         else:
-            return np.all(np.isclose(charpoly_U, charpoly_V))
+            return charpoly_equiv
         
     else: ## This needs fixing because the determinant function doesn't work
         charpoly_U = xmap(ymap(to_su(U)))
         charpoly_V = xmap(ymap(to_su(V)))
         
+        charpoly_equiv = charpoly_U.equals(charpoly_V)
+        
         if return_charpoly:
-            return charpoly_U.equals(charpoly_V), charpoly_U, charpoly_V
+            return charpoly_equiv, charpoly_U, charpoly_V
         else:
-            return charpoly_U.equals(charpoly_V)
-
+            return charpoly_equiv
 
 def huang_invariant(U):
+    
+    """
+    Compute the Huang invariant of a given SU(4) matrix. This invariant
+    is used to determine the whether two matrices are locally equivalent.
+    It is described on page 7 of https://arxiv.org/pdf/2105.06074.pdf.
+    
+    Parameters
+    ----------
+    U : np.ndarray or sympy.Matrix
+        An SU(4) matrix.
+    
+    Returns
+    -------
+    C, B, A : float
+        Coefficients of the characteristic quadratic
+    """
+        
     V = dagger(Magic())@to_su(U)@Magic()
     
     if Mode.representation == 'numerical':    
@@ -101,6 +230,21 @@ def huang_invariant(U):
         return character_polynomial
 
 def is_local(U):
+    
+    """
+    This function checks if a given unitary is local.
+
+    Parameters
+    -----------
+    U : np.array
+        A 4x4 unitary matrix
+
+    Returns
+    -------
+    local : bool 
+        True if the unitary is local, False otherwise
+    """
+    
     M = Magic()
     V = dagger(M)@to_su(U)@M
     if np.isclose(np.linalg.det(V), 1) and np.all(np.isclose(V@V.T, np.identity(4))):
@@ -109,6 +253,22 @@ def is_local(U):
         return False
     
 def kron_decomp(U:np.ndarray):
+    """
+    Given a 4x4 unitary matrix, this function returns two 2x2 
+    unitary matrices, a and b, such that: U = a ⊗ b
+    
+    Parameters
+    ----------
+    U : np.ndarray
+        4x4 numpy array representing a unitary matrix
+    
+    Returns
+    -------
+    a : np.ndarray
+        2x2 numpy array representing a unitary matrix
+    b : np.ndarray
+        2x2 numpy array representing a unitary matrix
+    """
     
     assert is_local(U), 'Matrix is not local' # Check if gates is local
     
@@ -121,7 +281,29 @@ def kron_decomp(U:np.ndarray):
 
     return a, b
 
-def KAK(U:np.ndarray):
+def KAK(U:np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, float]:
+
+    """
+    This function is an implementation of the KAK decomposition. 
+    It takes a 4x4 unitary matrix U and decomposes it into local
+    gates wrapped around a Canonical gate
+    
+    Parameters
+    ----------
+    U : np.ndarray
+        A 4x4 unitary matrix
+    
+    Returns
+    -------
+    K2 : np.ndarray
+        A 4x4 local gate
+    A : np.ndarray
+        A 4x4 canonical matrix
+    K1 : np.ndarray
+        A 4x4 local gate
+    phase : float
+        A global phase
+    """
     
     M = Magic()
     
@@ -149,6 +331,31 @@ def KAK(U:np.ndarray):
     return K2, A, K1, phase
 
 def bra(x: Union[str, int], num_qubits = None):
+    """
+    Returns a bra vector representing the state of a quantum system.
+    
+    Parameters
+    ----------
+    x : int or str
+        The integer value or binary string representation of the state.
+    num_qubits : int, optional
+        The number of qubits in the state. If `x` is a string, `num_qubits` is
+        not required. If None, defaults to the length of the binary string
+        
+    Returns
+    -------
+    full_bra : np.ndarray or sympy.Matrix
+        The bra vector representation of the state.
+    
+    Examples
+    --------
+    >>> bra('00')
+    array([[1., 0., 0., 0.]])
+    >>> bra(0, 2)
+    array([[1., 0., 0., 0.]])
+    >>> bra(0)
+    array([[1., 0.]])
+    """
     
     if isinstance(x, str):
         num_qubits = len(x)
@@ -167,6 +374,23 @@ def bra(x: Union[str, int], num_qubits = None):
     return full_bra 
 
 def ket(x: Union[str, int], num_qubits = None):
+    
+    """
+    Returns a ket vector representing the state of a quantum system.
+    
+    Parameters
+    ----------
+    x : int or str
+        The integer value or binary string representation of the state.
+    num_qubits : int, optional
+        The number of qubits in the state. If `x` is a string, `num_qubits` is
+        not required. If None, defaults to the length of the binary string
+        
+    Returns
+    -------
+    full_ket : np.ndarray or sympy.Matrix
+        The ket vector representation of the state.
+    """
     
     if isinstance(x, str):
         num_qubits = len(x)

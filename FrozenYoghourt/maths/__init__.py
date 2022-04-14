@@ -1,20 +1,65 @@
 from FrozenYoghourt import *
 from FrozenYoghourt.mode import *
 
-close = lambda a, b: np.all(np.isclose(a, b))
-
 def mm(*lst, mult=1):
+    """
+    Multiplies a list of matrices together.
+
+    Parameters
+    ----------
+    lst : list
+        A list of matrices to multiply together.
+    mult : int
+        The number of times to multiply the list of matrices together.
+
+    Returns
+    -------
+    numpy.ndarray
+        The product of the matrices.
+    """
     lst *= mult
     return reduce(lambda a, b: a @ b, lst)
 
 def tp(*lst, mult=1):
+    """
+    Returns the tensor product of the arguments.
+    If mult is not 1, the tensor product is repeated "mult" times.
+    If the representation is numerical, the tensor product is calculated using numpy.
+    If the representation is symbolic, the tensor product is calculated using sympy.
+    
+    Parameters
+    ----------
+    lst : list
+        A list of matrices or vectors.
+    mult : int
+        The number of times to repeat the tensor product.
+        
+    Returns
+    -------
+    numpy.ndarray or sympy.Matrix
+        The tensor product of the arguments.
+    """
     lst *= mult
     if Mode.representation == 'numerical':
         return reduce(lambda a, b: np.kron(a, b), lst)
     else:
         return TensorProduct(*lst)
 
-def dagger(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
+def dagger(*u:Union[Tuple[np.ndarray], Tuple[Matrix]]):
+    """
+    Returns the conjugate transpose of a matrix or a list of matrices.
+    
+    Parameters
+    ----------
+    u : np.ndarray or sympy.Matrix
+        A matrix or a list of matrices.
+    
+    Returns
+    -------
+    np.ndarray or sympy.Matrix
+        The conjugate transpose of the input matrix or list of matrices.
+    """
+    
     if Mode.representation == 'numerical':
         if len(u) == 1:
             return np.conj(u[0].T)
@@ -28,7 +73,27 @@ def dagger(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
             dagger_list = [mat.T.conjugate() for mat in u]
             return dagger_list
     
-def svd(A:np.ndarray):
+def svd(A:Union[np.ndarray, Matrix]):
+    """
+    Computes the singular value decomposition of a matrix.
+
+    Parameters
+    ----------
+    A : np.ndarray or sympy.Matrix
+        The matrix to decompose.
+
+    Returns
+    -------
+    U : np.ndarray or sympy.Matrix
+        The left singular unitary matrix
+
+    S : np.ndarray or sympy.Matrix
+        The singular diagonal matrix
+
+    V : Manp.ndarray or sympy.Matrixtrix
+        The right singular unitary matrix
+    """
+    
     if Mode.representation == 'numerical':
         return np.linalg.svd(A)
     else:
@@ -64,7 +129,21 @@ def svd(A:np.ndarray):
 
         return U, S, V
 
-def to_su(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
+def to_su(*u:Union[Tuple[np.ndarray], Tuple[Matrix]]):
+    """
+    Converts a matrix or a list of matrices to special unitary form.
+
+    Parameters
+    ----------
+    u : np.ndarray or sympy.Matrix
+        A matrix or a list of matrices to be converted to special unitary form.
+
+    Returns
+    -------
+    np.ndarray or sympy.Matrix
+        The matrix or the list of matrices in special unitary form.
+    """
+    
     if Mode.representation == 'numerical':
         if len(u) == 1:
             return u[0] * complex(np.linalg.det(u[0])) ** (-1 / np.shape(u[0])[0])
@@ -79,6 +158,26 @@ def to_su(*u:Union[Tuple[np.ndarray], Tuple[MutableDenseMatrix]]):
             return to_su_list
 
 def fast_substitution(matrix:Matrix, variables, values, to_numpy=False):
+    """
+    Substitutes values into a matrix.
+    
+    Parameters
+    ----------
+    matrix : sympy.Matrix
+        The matrix to substitute values into.
+    variables : list or tuple or Symbol
+        The variables to substitute.
+    values : list or tuple or float
+        The values to substitute.
+    to_numpy : bool
+        Whether to convert the matrix to a numpy array.
+        
+    Returns
+    -------
+    sympy.Matrix or numpy.ndarray
+        The substituted matrix.
+    """
+    
     if (type(variables) == list) or (type(variables) == tuple):
         substituted_matrix = matrix.subs(list(zip(variables, values)))
     else:
@@ -89,7 +188,34 @@ def fast_substitution(matrix:Matrix, variables, values, to_numpy=False):
     else:
         return substituted_matrix.evalf()
 
-def optimizing_identities(lhs_fun, rhs_fun, no_var, var_split, random=(0, 2 * np.pi), num_qubits=2, error=1e-7):
+def optimizing_identities(lhs_fun, rhs_fun, no_var, var_split, 
+                          random=(0, 2 * np.pi), num_qubits=2, error=1e-7):
+    """
+    This function is used to optimize the parameters of a given identity.
+
+    Parameters
+    ----------
+    lhs_fun : function
+        The function that returns the left hand side of the identity.
+    rhs_fun : function
+        The function that returns the right hand side of the identity.
+    no_var : int
+        The total number of variables in the identity.
+    var_split : int
+        The number of variables in the left hand side of the identity.
+    random : tuple, optional
+        The range of the random numbers to be generated. The default is (0, 2 * np.pi).
+    num_qubits : int, optional
+        The number of qubits in the identity. The default is 2.
+    error : float, optional
+        The error tolerance for the optimization. The default is 1e-7.
+    
+    Returns
+    -------
+    job : scipy.optimize.optimize.OptimizeResult
+        The result of the optimization.
+    """
+    
     compute_rhs = True
     if var_split == no_var:
         compute_rhs = False
