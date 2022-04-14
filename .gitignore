@@ -1,5 +1,6 @@
 # Ignore files
 Bug\ Fixes\ and\ Feature\ Developments\ .ipynb
+Troubleshooting\ .ipynb
 MANIFEST.IN
 setup.py 
 .DS_Store
