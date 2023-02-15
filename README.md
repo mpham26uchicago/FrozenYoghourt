@@ -1,7 +1,7 @@
 FrozenYoghourt
 --------------
 
-FrozenYoghourt is a collections of useful modules for working with circuit theory. Our library offers a tool for both numerical calculation with numpy that is optimized for speed and symbolic manipulation with sympy that is helpful for studying closed form circuit.
+FrozenYoghourt is a collections of useful modules for working with quantum circuit. Our library offers a tool for both numerical calculation with numpy that is optimized for speed and symbolic manipulation with sympy that is helpful for studying closed form circuit.
 
 We divide our library into 4 main modules.
 
